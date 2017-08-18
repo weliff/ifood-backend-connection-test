@@ -21,7 +21,7 @@ You also will have to emulate a client for the Restaurant. The client must:
   - holidays
 * A Restaurant may also be **online**/**offline**:
   - In order to a Restaurant be considered **online**, it must be inside the opening hour AND have interacted with our platform in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
-* The Restaurants are ranked according to the time they spent **offline**, inside the opening hour, without an scheduled **unavailability**.
+* The Restaurants are ranked according to the time they spent **offline**, inside the opening hour, without a scheduled **unavailability**.
 
 ## Non functional requirements
 
