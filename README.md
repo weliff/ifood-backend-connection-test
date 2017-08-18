@@ -23,10 +23,15 @@ You also will have to emulate a client for the Restaurant. The client must:
   - In order to a Restaurant be considered **online**, it must be inside the opening hour AND have interacted with our platform in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
 * The Restaurants are ranked according to the time they spent **offline**, inside the opening hour, without a scheduled **unavailability**.
 
-## Non functional requirements
+## Requirements
 
 In order to handle 100.000 simultaneously connections, we would like to use an IOT protocol (like MQTT or XMPP) for this scenario. 
 
 You will have to keep the connection state of the Restaurants freshly available for whoever wants to query it. We advise the use of some type of compute grid to do this processing in parallel by the instances of the service. Apache Ignite might be a good choice. 
 
-This microservice needs to answer promptly, given a list of Restaurants whether are opened or closed (taking into account the keep-alive and unavailability status). The Restaurant client should be able to ask for its unavailability history. Furthermore, we would like to extract reports for iFood commercial team so they can measure how much our Restaurants are opened, offline and unavailable.
+This microservice needs to answer promptly:
+* Given a list of Restaurants, whether they are **online** or **offline**. 
+* Given a specific Restaurant, its unavailability history. 
+* Reports for iFood commercial team so they can measure how our Restaurants are ranked, according to the amount of time they spent opened, offline.
+
+
