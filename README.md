@@ -12,7 +12,7 @@ You also will have to emulate a client for the Restaurant. The client must:
 
 ## Bussiness Rules
 
-* In iFood Platform, the Restaurants are open from 10:00 am to 11:00 pm. 
+* In iFood Platform, the opening hour for the Restaurants are from 10:00 am to 11:00 pm. 
 * A Restaurant may be **available**/**unavailable**.
 * A Restaurant may scheduled the status **unavailable**, due to the following reasons:
   - lack of delivery staff
@@ -20,8 +20,8 @@ You also will have to emulate a client for the Restaurant. The client must:
   - overloaded due to offline orders 
   - holidays
 * A Restaurant may also be **online**/**offline**:
-  - In order to a Restaurant be considered **online**, it must have interacted with our platform in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
-* The Restaurants are ranked according to the time they spent **offline**, without an scheduled **unavailability**.
+  - In order to a Restaurant be considered **online**, it must be inside the opening hour AND have interacted with our platform in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
+* The Restaurants are ranked according to the time they spent **offline**, inside the opening hour, without an scheduled **unavailability**.
 
 ## Non functional requirements
 
