@@ -23,7 +23,7 @@ You also will have to emulate a client (keep it simple) for the Restaurant. The 
   - overloaded due to offline orders 
   - holidays
 * A Restaurant may also be **online**/**offline**:
-  - In order to a Restaurant be considered **online**, it must be inside the opening hour AND have interacted with our platform in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
+  - In order to a Restaurant be considered **online**, it must be inside the opening hour AND have interacted with our platform (aka sent a keep-alive signal) in the last two minutes AND its status should be **available**. Otherwise, it should be considered **offline**.
 * The Restaurants are ranked according to the time they spent **offline**, inside the opening hour, without a scheduled **unavailability**.
 * Example:
 ![restaurant connection timeline](https://www.lucidchart.com/publicSegments/view/4d48ac9c-e543-4531-abd5-eff0d9788ea6/image.png)
