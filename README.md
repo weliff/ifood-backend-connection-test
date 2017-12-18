@@ -42,3 +42,5 @@ This service needs to answer promptly:
 * Reports for iFood commercial team so they can measure how our Restaurants are ranked, according to the amount of time they spent **offline** (see the diagram above, the red section on the "Restaurant Status" timeline).
 
 We expect your solution to be bundled in a way that we can easily run it locally, with a simple readme containing the rationale behind your implementation decisions and the steps needed to run it. Consider using some container/VM solution for that.
+
+Once ready, share your code with us!
