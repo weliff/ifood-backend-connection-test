@@ -24,6 +24,8 @@ public class RestaurantHistory implements PersistentAttributeInterceptable {
     @Column(name = "connection_state")
     private ConnectionState connectionState;
 
+    private LocalDateTime dateTime;
+
     @JsonIgnore
     @Getter(AccessLevel.PRIVATE)
     @LazyToOne(LazyToOneOption.NO_PROXY)
@@ -31,7 +33,9 @@ public class RestaurantHistory implements PersistentAttributeInterceptable {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    private LocalDateTime dateTime;
+    @JsonIgnore
+    @Transient
+    private PersistentAttributeInterceptor persistentAttributeInterceptor;
 
     /* FOR HIBERNATE */
     private RestaurantHistory() {
@@ -46,11 +50,11 @@ public class RestaurantHistory implements PersistentAttributeInterceptable {
 
     @Override
     public PersistentAttributeInterceptor $$_hibernate_getInterceptor() {
-        return null;
+        return persistentAttributeInterceptor;
     }
 
     @Override
     public void $$_hibernate_setInterceptor(PersistentAttributeInterceptor persistentAttributeInterceptor) {
-
+        this.persistentAttributeInterceptor = persistentAttributeInterceptor;
     }
 }

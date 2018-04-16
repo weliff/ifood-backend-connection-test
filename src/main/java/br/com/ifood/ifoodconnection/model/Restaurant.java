@@ -1,26 +1,25 @@
 package br.com.ifood.ifoodconnection.model;
 
-import br.com.ifood.ifoodconnection.model.view.ViewSummary;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleDateTimeException;
+import br.com.ifood.ifoodconnection.model.view.ViewSummary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static java.time.LocalDateTime.*;
+import static java.time.LocalDateTime.now;
 
 @EqualsAndHashCode(of = "id")
 @Getter
-@Setter
 @Entity
 @DynamicUpdate
 public class Restaurant implements Serializable {
@@ -36,21 +35,10 @@ public class Restaurant implements Serializable {
     private String name;
 
     @JsonView(ViewSummary.class)
-    @Transient
     private RestaurantStatus status;
 
-    @Transient
     @JsonView(ViewSummary.class)
     private ConnectionState connectionState;
-
-    @JsonIgnore
-    @BatchSize(size = 10)
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<KeepAliveSignal> keepAliveSignals = new ArrayList<>();
-
-    @JsonIgnore
-    @Transient
-    private long minutesAwaitPing;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
@@ -64,22 +52,19 @@ public class Restaurant implements Serializable {
     private Restaurant() {
     }
 
-    public Restaurant(String name, long minutesAwaitPing) {
+    public Restaurant(String name) {
         this.name = name;
-        this.minutesAwaitPing = minutesAwaitPing;
+        this.connectionState = ConnectionState.OFFLINE;
     }
 
-    public ConnectionState getConnectionState() {
-        return connectionState;
-    }
-
-    public RestaurantStatus getStatus() {
-        return this.status;
-    }
-
-    public boolean hasScheduleUnavailableNow() {
-        return getUnavailables().stream()
-            .anyMatch(s -> now().isAfter(s.getStart()) && now().isBefore(s.getEnd()));
+    @PostLoad
+    private void calculateConnectionStatus() {
+        if (hasScheduleUnavailableNow()) {
+            this.status = RestaurantStatus.UNAVAILABLE;
+            this.connectionState = ConnectionState.OFFLINE;
+        } else {
+            this.status = RestaurantStatus.AVAILABLE;
+        }
     }
 
     public void addScheduleUnavailable(ScheduleUnavailable scheduleUnavailable) {
@@ -98,49 +83,23 @@ public class Restaurant implements Serializable {
         return removed;
     }
 
-    public void addKeepAliveSignal(KeepAliveSignal signal) {
-        signal.setRestaurant(this);
-        this.keepAliveSignals.add(signal);
-        calculateConnectionStatus();
-    }
-
-    @PostLoad
-    private void calculateConnectionStatus() {
-        if (hasScheduleUnavailableNow()) {
-            this.status = RestaurantStatus.UNAVAILABLE;
-            this.connectionState = ConnectionState.OFFLINE;
-        } else {
-            this.status = RestaurantStatus.AVAILABLE;
-            if (lastSignalMinutes() <= this.minutesAwaitPing) {
-                this.connectionState = ConnectionState.ONLINE;
-            } else {
-                this.connectionState = ConnectionState.OFFLINE;
-            }
-        }
-    }
-
     private boolean hasScheduleUnavailableInRange(LocalDateTime start, LocalDateTime end) {
         return getUnavailables().stream()
                 .anyMatch(s -> s.getStart().isBefore(start) && s.getEnd().isAfter(end));
     }
 
-    private long lastSignalMinutes() {
-        return Duration.between(lastDateKeepAliveSignal(), now()).toMinutes();
+
+    public boolean hasScheduleUnavailableNow() {
+        return getUnavailables().stream()
+                .anyMatch(s -> now().isAfter(s.getStart()) && now().isBefore(s.getEnd()));
     }
 
-    private LocalDateTime lastDateKeepAliveSignal() {
-        return this.getKeepAliveSignals().stream()
-                .max(Comparator.comparing(KeepAliveSignal::getReceivedDate))
-                .map(KeepAliveSignal::getReceivedDate)
-                .orElse(LocalDateTime.MIN);
+    public void changeConnectionState(ConnectionState state) {
+        this.connectionState = state;
+        this.histories.add(new RestaurantHistory(this));
     }
 
     public List<ScheduleUnavailable> getUnavailables() {
         return Collections.unmodifiableList(unavailables);
     }
-
-    public List<KeepAliveSignal> getKeepAliveSignals() {
-        return Collections.unmodifiableList(keepAliveSignals);
-    }
-
 }
