@@ -41,11 +41,11 @@ public class RestaurantRepositoryTest {
     public void shouldFindRestaurantWithSpecificScheduleUnavailableByRestaurantAndEndDate() throws Exception {
         Restaurant restaurant = new Restaurant("Restaurant fake");
         LocalDateTime scheduleEndDate = LocalDateTime.now().plusDays(10);
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now(), scheduleEndDate, HOLIDAYS));
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3), HOLIDAYS));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusDays(1), scheduleEndDate, HOLIDAYS));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMonths(1), LocalDateTime.now().plusMonths(2), HOLIDAYS));
 
         restaurant = restaurantRepository.saveAndFlush(restaurant);
-        Optional<ScheduleUnavailable> found = restaurantRepository.findScheduleUnavailableByRestaurantAndStartDate(restaurant.getId(), scheduleEndDate);
+        Optional<ScheduleUnavailable> found = restaurantRepository.findScheduleUnavailableByRestaurantAndEndDate(restaurant.getId(), scheduleEndDate);
 
         Assertions.assertThat(found)
                 .isPresent();

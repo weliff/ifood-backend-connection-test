@@ -23,7 +23,7 @@ public class ScheduleUnavailableListener {
     public void onRestaurantStatusChange(String message) {
         try {
             RestaurantChangeStatusEvent event = objectMapper.readValue(message, RestaurantChangeStatusEvent.class);
-            restaurantService.changeStatus(event);
+            restaurantService.updateRestaurantStatusByEvent(event);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
