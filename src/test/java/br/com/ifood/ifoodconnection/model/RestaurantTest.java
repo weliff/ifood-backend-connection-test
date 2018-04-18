@@ -17,7 +17,7 @@ public class RestaurantTest {
 
     @Before
     public void setUp() throws Exception {
-        this.restaurant = new Restaurant("Restaurant Fake");
+        this.restaurant = new Restaurant("Restaurant Fake", null);
     }
 
     @Test

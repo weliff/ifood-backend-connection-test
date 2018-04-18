@@ -24,7 +24,7 @@ public class ClientSimulator {
         MqttClient client = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 
-        mqttConnectOptions.setKeepAliveInterval(2);
+        mqttConnectOptions.setKeepAliveInterval(120);
 
         mqttConnectOptions.setWill("connectionLost", offlineMessage, 1, false);
 

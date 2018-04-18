@@ -1,5 +1,6 @@
 package br.com.ifood.ifoodconnection;
 
+import br.com.ifood.ifoodconnection.model.OpeningHour;
 import br.com.ifood.ifoodconnection.model.Restaurant;
 import br.com.ifood.ifoodconnection.repository.RestaurantRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalTime;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
@@ -27,7 +29,7 @@ public class IfoodConnectionApplication {
 		return args -> {
 			IntStream.range(1, 10)
 					.forEach(i -> {
-						Restaurant restaurant = new Restaurant("Restaurant " + i);
+						Restaurant restaurant = new Restaurant("Restaurant " + i, new OpeningHour(LocalTime.now(), LocalTime.now()));
 						restaurantRepository.save(restaurant);
 					});
 
@@ -45,7 +47,7 @@ public class IfoodConnectionApplication {
 //                    MqttClient client = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
 //                    MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 //
-//                    mqttConnectOptions.setKeepAliveInterval(15);
+//                    mqttConnectOptions.setKeepAliveInterval(120);
 //
 //                    mqttConnectOptions.setWill("connectionLost", offlineMessage, MqttQoS.AT_LEAST_ONCE.value(), false);
 //

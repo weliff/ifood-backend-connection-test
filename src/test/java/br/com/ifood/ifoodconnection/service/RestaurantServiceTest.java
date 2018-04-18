@@ -42,7 +42,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void shouldFindRestaurantAndSaveNewScheduleUnavailable() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant Fake");
+        Restaurant restaurant = new Restaurant("Restaurant Fake", null);
         ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, LocalDateTime.now(), LocalDateTime.now(), CONNECTION_ISSUES);
         Mockito.when(restaurantRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurant));
 
@@ -58,7 +58,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void shouldFindRestaurantAndDeleteScheduleUnavailable() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant Fake");
+        Restaurant restaurant = new Restaurant("Restaurant Fake", null);
         ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, LocalDateTime.now(), LocalDateTime.now(), CONNECTION_ISSUES);
         restaurant.addScheduleUnavailable(scheduleUnavailable);
         Mockito.when(restaurantRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurant));
@@ -73,7 +73,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void shouldUpdateConnectionState() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant Fake");
+        Restaurant restaurant = new Restaurant("Restaurant Fake", null);
         Mockito.when(restaurantRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurant));
 
         RestaurantStateDTO dto = new RestaurantStateDTO(1L, ConnectionState.ONLINE);

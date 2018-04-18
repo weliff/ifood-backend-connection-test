@@ -33,7 +33,7 @@ public class StatusChangeAvailableHandlerTest {
         Long restaurantId = 1L;
         LocalDateTime endDate = now();
         RestaurantChangeStatusEvent event = new RestaurantChangeStatusEvent(restaurantId, RestaurantStatus.AVAILABLE, endDate);
-        Restaurant restaurantFake = new Restaurant("Restaurant Fake");
+        Restaurant restaurantFake = new Restaurant("Restaurant Fake", null);
 
         Mockito.when(restaurantRepositoryMock.findScheduleUnavailableByRestaurantAndEndDate(restaurantId, endDate))
                 .thenReturn(Optional.of(new ScheduleUnavailable(1L, now(), endDate, restaurantFake, HOLIDAYS)));

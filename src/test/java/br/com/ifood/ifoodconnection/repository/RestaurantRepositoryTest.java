@@ -16,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.HOLIDAYS;
@@ -31,7 +30,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     public void shouldFindSpecificScheduleUnavailableByRestaurantAndStartDate() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant fake");
+        Restaurant restaurant = new Restaurant("Restaurant fake", null);
         LocalDateTime scheduleStartDate = LocalDateTime.now().plusDays(10);
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, scheduleStartDate, LocalDateTime.now().plusDays(20), HOLIDAYS));
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3), HOLIDAYS));
@@ -45,7 +44,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     public void shouldFindRestaurantWithSpecificScheduleUnavailableByRestaurantAndEndDate() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant fake");
+        Restaurant restaurant = new Restaurant("Restaurant fake", null);
         LocalDateTime scheduleEndDate = LocalDateTime.now().plusDays(10);
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusDays(1), scheduleEndDate, HOLIDAYS));
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMonths(1), LocalDateTime.now().plusMonths(2), HOLIDAYS));
@@ -59,7 +58,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     public void shouldFindHistoryByRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant fake");
+        Restaurant restaurant = new Restaurant("Restaurant fake", null);
         restaurant.changeStatus(RestaurantStatus.UNAVAILABLE);
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -73,7 +72,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     public void shouldFindAllSchedulesByRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant("Restaurant fake");
+        Restaurant restaurant = new Restaurant("Restaurant fake", null);
         LocalDateTime scheduleEndDate = LocalDateTime.now().plusDays(10);
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusDays(1), scheduleEndDate, HOLIDAYS));
         restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMonths(1), LocalDateTime.now().plusMonths(2), HOLIDAYS));

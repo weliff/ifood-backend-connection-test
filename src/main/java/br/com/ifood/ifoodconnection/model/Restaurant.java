@@ -11,6 +11,8 @@ import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,6 +41,11 @@ public class Restaurant implements Serializable {
     @JsonView(ViewSummary.class)
     private ConnectionState connectionState;
 
+    @Embedded
+    @NotNull
+    @Valid
+    private OpeningHour openingHour;
+
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleUnavailable> unavailables = new ArrayList<>();
@@ -51,8 +58,9 @@ public class Restaurant implements Serializable {
     private Restaurant() {
     }
 
-    public Restaurant(String name) {
+    public Restaurant(String name, OpeningHour openingHour) {
         this.name = name;
+        this.openingHour = openingHour;
         this.status = RestaurantStatus.AVAILABLE;
         this.connectionState = ConnectionState.OFFLINE;
     }
