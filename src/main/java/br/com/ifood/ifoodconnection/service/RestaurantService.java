@@ -1,6 +1,9 @@
 package br.com.ifood.ifoodconnection.service;
 
-import br.com.ifood.ifoodconnection.model.*;
+import br.com.ifood.ifoodconnection.model.ConnectionState;
+import br.com.ifood.ifoodconnection.model.Restaurant;
+import br.com.ifood.ifoodconnection.model.RestaurantStatus;
+import br.com.ifood.ifoodconnection.model.ScheduleUnavailable;
 import br.com.ifood.ifoodconnection.model.dto.RestaurantStateDTO;
 import br.com.ifood.ifoodconnection.model.event.RestaurantChangeStatusEvent;
 import br.com.ifood.ifoodconnection.publisher.PublisherChangeRestaurantStatus;
@@ -9,8 +12,6 @@ import br.com.ifood.ifoodconnection.service.exception.RestaurantNotFoundExceptio
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
