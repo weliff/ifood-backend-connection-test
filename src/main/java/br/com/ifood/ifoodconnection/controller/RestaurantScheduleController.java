@@ -24,7 +24,6 @@ public class RestaurantScheduleController {
     }
 
     @GetMapping
-    @Transactional
     public Page<ScheduleUnavailable> findRestaurantSchedules(@PathVariable Long restaurantId, @PageableDefault(15) Pageable pageable) {
         return this.restaurantRepository.findSchedulesUnavailableByRestaurant(restaurantId, pageable);
 

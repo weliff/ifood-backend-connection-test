@@ -8,6 +8,7 @@ import br.com.ifood.ifoodconnection.repository.RestaurantRepository;
 import br.com.ifood.ifoodconnection.service.exception.RestaurantNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class RestaurantService {
         this.publisherChangeRestaurantStatus = publisherChangeRestaurantStatus;
     }
 
-    @CachePut(cacheNames = "restaurants", key = "#id")
+    @Cacheable(cacheNames = "restaurants", key = "#id")
     public Restaurant findById(Long id) {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(String.format("Not found the resource Restaurant with id=%s", id)));

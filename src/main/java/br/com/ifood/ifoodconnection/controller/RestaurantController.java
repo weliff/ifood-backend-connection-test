@@ -37,7 +37,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant findRestaurantById(@PathVariable("id") Long restaurantId) {
+    public Restaurant findById(@PathVariable("id") Long restaurantId) {
         return this.restaurantService.findById(restaurantId);
     }
 
