@@ -1,5 +1,6 @@
 package br.com.ifood.ifoodconnection.model;
 
+import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNow;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleConflictDateTimeException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateException;
 import br.com.ifood.ifoodconnection.model.view.ViewSummary;
@@ -91,6 +92,9 @@ public class Restaurant implements Serializable {
     }
 
     public void changeConnectionState(ConnectionState state) {
+        if (!openingHour.isOpenNow()) {
+            throw new RestaurantIsNotOpenNow(String.format("The restaurant is not open now, OpeningHour%s", this.openingHour));
+        }
         this.connectionState = state;
         this.histories.add(new RestaurantHistory(this));
     }

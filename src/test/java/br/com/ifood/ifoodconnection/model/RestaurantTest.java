@@ -1,11 +1,15 @@
 package br.com.ifood.ifoodconnection.model;
 
+import br.com.ifood.ifoodconnection.fake.FakeOpeningHour;
+import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNow;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleConflictDateTimeException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateException;
 import br.com.ifood.ifoodconnection.service.exception.ScheduleUnavailableNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.LocalTime;
 
 import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.CONNECTION_ISSUES;
 import static java.time.LocalDateTime.now;
@@ -17,7 +21,9 @@ public class RestaurantTest {
 
     @Before
     public void setUp() throws Exception {
-        this.restaurant = new Restaurant("Restaurant Fake", null);
+        FakeOpeningHour openingHour = new FakeOpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 0));
+        openingHour.setNow(LocalTime.of(12, 0));
+        this.restaurant = new Restaurant("Restaurant Fake", openingHour);
     }
 
     @Test
@@ -74,5 +80,21 @@ public class RestaurantTest {
         this.restaurant.changeStatus(RestaurantStatus.AVAILABLE);
         Assertions.assertThat(this.restaurant.getStatus()).isEqualTo(RestaurantStatus.AVAILABLE);
         Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
+    }
+
+    @Test(expected = RestaurantIsNotOpenNow.class)
+    public void shouldNotChangeConnectionStateToOnlineWhenNotInTheOpeningHours() throws Exception {
+        FakeOpeningHour fakeOpeningHour = new FakeOpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 0));
+        fakeOpeningHour.setNow(LocalTime.of(7, 0));
+        this.restaurant = new Restaurant("Restaurant Fake", fakeOpeningHour);
+
+        this.restaurant.changeConnectionState(ConnectionState.ONLINE);
+
+    }
+
+    @Test
+    public void shouldChangeConnectionStateToOnlineWhenInTheOpeningHours() throws Exception {
+        this.restaurant.changeConnectionState(ConnectionState.ONLINE);
+        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.ONLINE);
     }
 }
