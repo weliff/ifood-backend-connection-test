@@ -2,19 +2,15 @@ package br.com.ifood.ifoodconnection.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -38,6 +34,10 @@ public class ScheduleUnavailable implements Serializable {
 
     private Boolean applied;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private ScheduleUnavailableReason reason;
+
     @JsonIgnore
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,19 +51,21 @@ public class ScheduleUnavailable implements Serializable {
 
     @JsonCreator
     private ScheduleUnavailable(@JsonProperty("date") LocalDateTime start,
-                                @JsonProperty("end") LocalDateTime end) {
+                                @JsonProperty("end") LocalDateTime end,
+                                @JsonProperty("reason") ScheduleUnavailableReason reason) {
         this();
         this.start = start;
         this.end = end;
+        this.reason = reason;
     }
 
-    public ScheduleUnavailable(Long id, LocalDateTime start, LocalDateTime end) {
-        this(start, end);
+    public ScheduleUnavailable(Long id, LocalDateTime start, LocalDateTime end, ScheduleUnavailableReason reason) {
+        this(start, end, reason);
         this.id = id;
     }
 
-    public ScheduleUnavailable(Long id, LocalDateTime start, LocalDateTime end, Restaurant restaurant) {
-        this(id, start, end);
+    public ScheduleUnavailable(Long id, LocalDateTime start, LocalDateTime end, Restaurant restaurant, ScheduleUnavailableReason reason) {
+        this(id, start, end, reason);
         this.restaurant = restaurant;
     }
 

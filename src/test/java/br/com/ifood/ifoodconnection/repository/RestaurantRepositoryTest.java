@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.HOLIDAYS;
+
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -25,8 +27,8 @@ public class RestaurantRepositoryTest {
     public void shouldFindSpecificScheduleUnavailableByRestaurantAndStartDate() throws Exception {
         Restaurant restaurant = new Restaurant("Restaurant fake");
         LocalDateTime scheduleStartDate = LocalDateTime.now().plusDays(10);
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, scheduleStartDate, LocalDateTime.now().plusDays(20)));
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3)));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, scheduleStartDate, LocalDateTime.now().plusDays(20), HOLIDAYS));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3), HOLIDAYS));
 
         restaurant = restaurantRepository.saveAndFlush(restaurant);
         Optional<ScheduleUnavailable> found = restaurantRepository.findScheduleUnavailableByRestaurantAndStartDate(restaurant.getId(), scheduleStartDate);
@@ -39,8 +41,8 @@ public class RestaurantRepositoryTest {
     public void shouldFindRestaurantWithSpecificScheduleUnavailableByRestaurantAndEndDate() throws Exception {
         Restaurant restaurant = new Restaurant("Restaurant fake");
         LocalDateTime scheduleEndDate = LocalDateTime.now().plusDays(10);
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now(), scheduleEndDate));
-        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3)));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now(), scheduleEndDate, HOLIDAYS));
+        restaurant.addScheduleUnavailable(new ScheduleUnavailable(null, LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusDays(3), HOLIDAYS));
 
         restaurant = restaurantRepository.saveAndFlush(restaurant);
         Optional<ScheduleUnavailable> found = restaurantRepository.findScheduleUnavailableByRestaurantAndStartDate(restaurant.getId(), scheduleEndDate);

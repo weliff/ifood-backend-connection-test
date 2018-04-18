@@ -1,8 +1,6 @@
 package br.com.ifood.ifoodconnection.model.event;
 
-import br.com.ifood.ifoodconnection.model.Restaurant;
 import br.com.ifood.ifoodconnection.model.RestaurantStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

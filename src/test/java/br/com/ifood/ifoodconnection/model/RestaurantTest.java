@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
+import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.CONNECTION_ISSUES;
 import static java.time.LocalDateTime.now;
 import static org.junit.Assert.assertEquals;
 
@@ -21,22 +22,24 @@ public class RestaurantTest {
 
     @Test
     public void shouldChangeConnectionStateToOfflineWhenHasScheduleUnavailableValid() throws Exception {
-        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().minusHours(1), now().plusHours(1));
+        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().minusHours(1), now().plusHours(1), CONNECTION_ISSUES);
         restaurant.addScheduleUnavailable(scheduleUnavailable);
         assertEquals(restaurant.getConnectionState(), ConnectionState.OFFLINE);
     }
 
     @Test(expected = ScheduleConflictDateTimeException.class)
     public void shouldThrowErrorWhenHasScheduleInTime() throws Exception {
-        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2), now().plusHours(3));
-        ScheduleUnavailable scheduleUnavailable2 = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10), now().plusHours(3).minusMinutes(10));
+        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2), now().plusHours(3), CONNECTION_ISSUES);
+        ScheduleUnavailable scheduleUnavailable2 = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10),
+                now().plusHours(3).minusMinutes(10), CONNECTION_ISSUES);
         this.restaurant.addScheduleUnavailable(scheduleUnavailable);
         this.restaurant.addScheduleUnavailable(scheduleUnavailable2);
     }
 
     @Test
     public void shouldRemoveScheduleWhenNotApply() throws Exception {
-        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10), now().plusHours(3).minusMinutes(10));
+        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10),
+                now().plusHours(3).minusMinutes(10), CONNECTION_ISSUES);
         this.restaurant.addScheduleUnavailable(scheduleUnavailable);
         this.restaurant.removeScheduleUnavailable(1L);
 
@@ -51,7 +54,8 @@ public class RestaurantTest {
 
     @Test(expected = ScheduleUnavailableStateException.class)
     public void shouldThrowErrorWhenScheduleAlreadyApplied() throws Exception {
-        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10), now().plusHours(3).minusMinutes(10));
+        ScheduleUnavailable scheduleUnavailable = new ScheduleUnavailable(1L, now().plusHours(2).plusMinutes(10),
+                now().plusHours(3).minusMinutes(10), CONNECTION_ISSUES);
         this.restaurant.addScheduleUnavailable(scheduleUnavailable);
 
         scheduleUnavailable.apply();

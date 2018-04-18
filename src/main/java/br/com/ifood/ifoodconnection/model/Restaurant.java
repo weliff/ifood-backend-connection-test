@@ -8,18 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static java.time.LocalDateTime.now;
 
 @EqualsAndHashCode(of = "id")
 @Getter
@@ -75,7 +71,7 @@ public class Restaurant implements Serializable {
                 .findAny()
                 .orElseThrow(() -> new ScheduleUnavailableNotFoundException(String.format("Not found the resource ScheduleUnavailable with id=%s", scheduleId)));
         if (scheduleUnavailable.getApplied()) {
-            throw new ScheduleUnavailableStateException(String.format("Not found the resource ScheduleUnavailable with id=%s", scheduleId));
+            throw new ScheduleUnavailableStateException(String.format("Schedule has already been applied with Schedule=%s", scheduleUnavailable));
         }
         this.unavailables.remove(scheduleUnavailable);
     }
