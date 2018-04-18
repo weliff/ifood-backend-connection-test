@@ -5,8 +5,6 @@ import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateExce
 import br.com.ifood.ifoodconnection.service.exception.RestaurantNotFoundException;
 import br.com.ifood.ifoodconnection.service.exception.ScheduleUnavailableNotFoundException;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package br.com.ifood.ifoodconnection.mqtthandler;
 
-import br.com.ifood.ifoodconnection.model.RestaurantState;
+import br.com.ifood.ifoodconnection.model.dto.RestaurantStateDTO;
 import br.com.ifood.ifoodconnection.service.RestaurantService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +25,10 @@ public class RestaurantConnectionHandler {
     public MessageHandler handle() {
         return message -> {
             try {
-                RestaurantState connectionState = objectMapper.readValue(message.getPayload().toString(), RestaurantState.class);
+                RestaurantStateDTO connectionState = objectMapper.readValue(message.getPayload().toString(), RestaurantStateDTO.class);
                 restaurantService.updateConnectionSate(connectionState);
             } catch (IOException e) {
-                throw new RuntimeException("Error reading RestaurantState!", e);
+                throw new RuntimeException("Error reading RestaurantStateDTO!", e);
             }
         };
     }
