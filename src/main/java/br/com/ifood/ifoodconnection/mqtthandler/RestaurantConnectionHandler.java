@@ -1,4 +1,4 @@
-package br.com.ifood.ifoodconnection.handler;
+package br.com.ifood.ifoodconnection.mqtthandler;
 
 import br.com.ifood.ifoodconnection.model.RestaurantState;
 import br.com.ifood.ifoodconnection.service.RestaurantService;

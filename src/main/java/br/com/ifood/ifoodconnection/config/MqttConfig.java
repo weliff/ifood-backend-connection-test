@@ -1,10 +1,11 @@
 package br.com.ifood.ifoodconnection.config;
 
-import br.com.ifood.ifoodconnection.handler.RestaurantConnectionHandler;
+import br.com.ifood.ifoodconnection.mqtthandler.RestaurantConnectionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.endpoint.MessageProducerSupport;
@@ -13,6 +14,7 @@ import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 
+@Profile("!test")
 @Configuration
 @EnableConfigurationProperties(IfoodMqttProperty.class)
 public class MqttConfig {

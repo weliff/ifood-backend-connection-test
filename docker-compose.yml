@@ -1,0 +1,5 @@
+rabbitmq:
+  image: rafakato/rabbitmq-delayed-messages-exchange:3.6.1-management
+  ports:
+    - "5672:5672"
+    - "15672:15672"

@@ -23,6 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>9</java.version>
 		<eclipse-paho.version>1.0.2</eclipse-paho.version>
+		<ignite.version>2.4.0</ignite.version>
 	</properties>
 
 	<dependencies>
@@ -42,10 +43,13 @@
 			<version>${eclipse-paho.version}</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,11 +85,11 @@
 			<version>0.7.1</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-devtools</artifactId>-->
-			<!--<scope>runtime</scope>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
@@ -124,13 +128,29 @@
 			<version>RELEASE</version>
 		</dependency>
 
-		<!--NEED?-->
 		<dependency>
 			<groupId>io.moquette</groupId>
 			<artifactId>moquette-broker</artifactId>
 			<version>0.10</version>
 		</dependency>
 
+
+		<!--APACHE IGNITE -->
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-core</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-spring</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-indexing</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
 
 	</dependencies>
 
@@ -145,6 +165,12 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>--add-modules java.base</argLine>
+					<!--<argLine>&#45;&#45;add-exports java.base/jdk.internal.misc=ALL-UNNAMED</argLine>-->
+					<!--<argLine>&#45;&#45;add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>-->
+					<!--<argLine>&#45;&#45;add-exports java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED</argLine>-->
+					<!--<argLine>&#45;&#45;add-exports jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED</argLine>-->
+					<!--<argLine>&#45;&#45;add-modules java.xml.bind</argLine>-->
+
 				</configuration>
 			</plugin>
 		</plugins>
