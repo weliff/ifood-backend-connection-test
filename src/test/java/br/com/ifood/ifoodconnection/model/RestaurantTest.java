@@ -1,7 +1,7 @@
 package br.com.ifood.ifoodconnection.model;
 
 import br.com.ifood.ifoodconnection.fake.FakeOpeningHour;
-import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNow;
+import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNowException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleConflictDateTimeException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateException;
 import br.com.ifood.ifoodconnection.service.exception.ScheduleUnavailableNotFoundException;
@@ -82,7 +82,7 @@ public class RestaurantTest {
         Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
     }
 
-    @Test(expected = RestaurantIsNotOpenNow.class)
+    @Test(expected = RestaurantIsNotOpenNowException.class)
     public void shouldNotChangeConnectionStateToOnlineWhenNotInTheOpeningHours() throws Exception {
         FakeOpeningHour fakeOpeningHour = new FakeOpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 0));
         fakeOpeningHour.setNow(LocalTime.of(7, 0));
