@@ -78,8 +78,8 @@ public class Restaurant implements Serializable {
 
     private boolean hasScheduleUnavailableInRange(LocalDateTime start, LocalDateTime end) {
         return getUnavailables().stream()
-                .anyMatch(s -> (s.getStart().isBefore(start) || s.getStart().isEqual(start))
-                        && (s.getEnd().isAfter(end) || s.getEnd().isEqual(end)));
+                .anyMatch(s -> (s.getStart().isEqual(start) || s.getEnd().isEqual(end)) ||  (s.getStart().isBefore(start)
+                        && (s.getEnd().isAfter(end))));
     }
 
     public void changeConnectionState(ConnectionState state) {

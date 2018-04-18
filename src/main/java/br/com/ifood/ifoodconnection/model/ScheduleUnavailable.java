@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
@@ -42,6 +44,7 @@ public class ScheduleUnavailable implements Serializable {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
+    @Fetch(FetchMode.JOIN)
     private Restaurant restaurant;
 
     /* FOR HIBERNATE */
