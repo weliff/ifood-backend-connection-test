@@ -25,6 +25,12 @@ public class RestaurantService {
         this.publisherChangeRestaurantStatus = publisherChangeRestaurantStatus;
     }
 
+    @CachePut(cacheNames = "restaurants", key = "#id")
+    public Restaurant findById(Long id) {
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new RestaurantNotFoundException(String.format("Not found the resource Restaurant with id=%s", id)));
+    }
+
     @CachePut(cacheNames = "restaurants", key = "#restaurantId")
     @Transactional
     public Restaurant saveScheduleUnavailable(Long restaurantId, ScheduleUnavailable scheduleUnavailable) {
@@ -69,11 +75,6 @@ public class RestaurantService {
         Restaurant restaurant = findById(restaurantId);
         restaurant.changeConnectionState(state);
         return restaurantRepository.save(restaurant);
-    }
-
-    public Restaurant findById(Long id) {
-        return restaurantRepository.findById(id)
-                .orElseThrow(() -> new RestaurantNotFoundException(String.format("Not found the resource Restaurant with id=%s", id)));
     }
 
 }

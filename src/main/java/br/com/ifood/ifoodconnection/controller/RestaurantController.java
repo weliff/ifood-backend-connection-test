@@ -6,6 +6,9 @@ import br.com.ifood.ifoodconnection.model.view.ViewSummary;
 import br.com.ifood.ifoodconnection.repository.RestaurantRepository;
 import br.com.ifood.ifoodconnection.service.RestaurantService;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +41,9 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}/history")
-    public List<RestaurantHistory> getConnectionStatusHistory(@PathVariable("id") Long restaurantId) {
-        return restaurantRepository.findHistory(restaurantId);
+    public Page<RestaurantHistory> getConnectionStatusHistory(@PathVariable("id") Long restaurantId,
+                                                              @PageableDefault(15) Pageable pageable) {
+        return restaurantRepository.findHistory(restaurantId, pageable);
     }
 
 

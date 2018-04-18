@@ -15,10 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.eq;
 
 @RunWith(MockitoJUnitRunner.class)

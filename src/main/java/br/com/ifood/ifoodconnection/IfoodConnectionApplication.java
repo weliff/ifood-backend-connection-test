@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.util.stream.IntStream;
@@ -18,10 +17,8 @@ public class IfoodConnectionApplication {
 	@Value("${ifood.connection.minutes-await-ping}")
 	private Integer minutesAwaitPing;
 
-	private static ApplicationContext applicationContext;
-
 	public static void main(String[] args) {
-		applicationContext = SpringApplication.run(IfoodConnectionApplication.class, args);
+		SpringApplication.run(IfoodConnectionApplication.class, args);
 	}
 
 	// for simulate clients
