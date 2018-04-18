@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class RestaurantChangeStatusEvent {
 
     private Long restaurantId;

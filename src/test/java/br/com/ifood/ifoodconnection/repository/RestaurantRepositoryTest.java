@@ -1,6 +1,8 @@
 package br.com.ifood.ifoodconnection.repository;
 
 import br.com.ifood.ifoodconnection.model.Restaurant;
+import br.com.ifood.ifoodconnection.model.RestaurantHistory;
+import br.com.ifood.ifoodconnection.model.RestaurantStatus;
 import br.com.ifood.ifoodconnection.model.ScheduleUnavailable;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.HOLIDAYS;
@@ -49,5 +52,18 @@ public class RestaurantRepositoryTest {
 
         Assertions.assertThat(found)
                 .isPresent();
+    }
+
+    @Test
+    public void shouldFindHistoryByRestaurant() throws Exception {
+        Restaurant restaurant = new Restaurant("Restaurant fake");
+        restaurant.changeStatus(RestaurantStatus.UNAVAILABLE);
+
+        restaurant = restaurantRepository.saveAndFlush(restaurant);
+
+        List<RestaurantHistory> history = restaurantRepository.findHistory(restaurant.getId());
+
+        Assertions.assertThat(history)
+                .hasSize(1);
     }
 }

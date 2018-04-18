@@ -1,5 +1,6 @@
 package br.com.ifood.ifoodconnection.publisher.rabbit;
 
+import br.com.ifood.ifoodconnection.config.Exchanges;
 import br.com.ifood.ifoodconnection.config.Queues;
 import br.com.ifood.ifoodconnection.model.event.RestaurantChangeStatusEvent;
 import br.com.ifood.ifoodconnection.publisher.PublisherChangeRestaurantStatus;
@@ -32,7 +33,7 @@ public class PublisherChangeRestaurantStatusRabbit implements PublisherChangeRes
             long delayToPublish = ChronoUnit.MILLIS.between(LocalDateTime.now(), event.getDate());
 //            long delayToPublish = 1000L;
 
-            rabbitTemplate.convertAndSend(Queues.RESTAURANT_STATUS_CHANGE,
+            rabbitTemplate.convertAndSend(Exchanges.RESTAURANT_STATUS_CHANGE,
                     Queues.RESTAURANT_STATUS_CHANGE, eventString , Map.of("x-delay", delayToPublish));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

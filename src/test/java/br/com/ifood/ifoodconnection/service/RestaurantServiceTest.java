@@ -71,7 +71,6 @@ public class RestaurantServiceTest {
                 .isEmpty();
     }
 
-
     @Test
     public void shouldUpdateConnectionState() throws Exception {
         Restaurant restaurant = new Restaurant("Restaurant Fake");
