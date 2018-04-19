@@ -1,5 +1,6 @@
 package br.com.ifood.ifoodconnection.model;
 
+import br.com.ifood.ifoodconnection.model.validation.Create;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,10 +29,12 @@ public class ScheduleUnavailable implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @FutureOrPresent
+    @NotNull
+    @FutureOrPresent(groups = Create.class)
     private LocalDateTime start;
 
-    @FutureOrPresent
+    @NotNull
+    @FutureOrPresent(groups = Create.class)
     private LocalDateTime end;
 
     private Boolean applied;
@@ -53,7 +56,7 @@ public class ScheduleUnavailable implements Serializable {
     }
 
     @JsonCreator
-    private ScheduleUnavailable(@JsonProperty("date") LocalDateTime start,
+    private ScheduleUnavailable(@JsonProperty("start") LocalDateTime start,
                                 @JsonProperty("end") LocalDateTime end,
                                 @JsonProperty("reason") ScheduleUnavailableReason reason) {
         this();
