@@ -52,18 +52,18 @@ Para facilidade de avaliação e execução do serviço, utilizei Docker para le
 
 Segue uma visão geral das tecnologias e frameworks utilizados:
 
-Java 9
-Spring Boot 2
-Spring 5 (Web MVC, Context, Data...)
-JPA e Hibernate
-Flyway (migrations)
-MySQL
-H2 (banco para testes)
-Mosquitto (Mqtt)
-Redis (Opção ao Ignite)
-RabbitMQ
-Docker (Levantar dependencias)
-Maven
+Java 9,
+Spring Boot 2,
+Spring 5 (Web MVC, Context, Data...),
+JPA e Hibernate,
+Flyway (migrations),
+MySQL,
+H2 (banco para testes),
+Mosquitto (Mqtt),
+Redis (Opção ao Ignite),
+RabbitMQ,
+Docker (Levantar dependencias),
+Maven,
 
 Como o código está organizado:
 
