@@ -41,7 +41,7 @@ This service needs to answer promptly:
 * Given a specific Restaurant, its unavailability history.
 * Reports for iFood commercial team so they can measure how our Restaurants are ranked, according to the amount of time they spent **offline** (see the diagram above, the red section on the "Restaurant Status" timeline).
 
-## Justificativas
+## Justificativas de implementação
 
 Segui as boas práticas de design e implementação de software, principalmente as citadas durante a entrevista. 
 Levei em consideração utilizar as tecnologias que são utilizadas no iFood.
