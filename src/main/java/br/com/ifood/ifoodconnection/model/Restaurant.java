@@ -38,9 +38,11 @@ public class Restaurant implements Serializable {
     private String name;
 
     @JsonView(ViewSummary.class)
+    @Enumerated(EnumType.STRING)
     private RestaurantStatus status;
 
     @JsonView(ViewSummary.class)
+    @Enumerated(EnumType.STRING)
     private ConnectionState connectionState;
 
     @NotNull

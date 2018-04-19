@@ -16,9 +16,6 @@ import java.util.stream.IntStream;
 @SpringBootApplication
 public class IfoodConnectionApplication {
 
-	@Value("${ifood.connection.minutes-await-ping}")
-	private Integer minutesAwaitPing;
-
 	public static void main(String[] args) {
 		SpringApplication.run(IfoodConnectionApplication.class, args);
 	}
@@ -27,12 +24,12 @@ public class IfoodConnectionApplication {
 	@Bean
 	ApplicationRunner applicationRunner(RestaurantRepository restaurantRepository) {
 		return args -> {
-			IntStream.range(1, 10)
-					.forEach(i -> {
-						OpeningHour openingHour = new OpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 59));
-						Restaurant restaurant = new Restaurant("Restaurant " + i, openingHour);
-						restaurantRepository.save(restaurant);
-					});
+//			IntStream.range(1, 10)
+//					.forEach(i -> {
+//						OpeningHour openingHour = new OpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 59));
+//						Restaurant restaurant = new Restaurant("Restaurant " + i, openingHour);
+//						restaurantRepository.save(restaurant);
+//					});
 
             ObjectMapper objectMapper = new ObjectMapper();
 
