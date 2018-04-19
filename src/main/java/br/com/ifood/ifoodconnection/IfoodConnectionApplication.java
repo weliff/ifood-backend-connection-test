@@ -29,33 +29,33 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 public class IfoodConnectionApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IfoodConnectionApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IfoodConnectionApplication.class, args);
+    }
 
-	// for simulate clients
-	@RestController
+    // for simulate clients
+    @RestController
     @RequestMapping("/clients/{restaurantId}")
-	class RestaurantClientController {
+    class RestaurantClientController {
 
-	    @Autowired
-	    private RestaurantRepository restaurantRepository;
+        @Autowired
+        private RestaurantRepository restaurantRepository;
 
-	    @Autowired
-	    private IfoodMqttProperty mqttProperty;
+        @Autowired
+        private IfoodMqttProperty mqttProperty;
 
-	    private List<RestaurantClient> restaurantClients;
+        private List<RestaurantClient> restaurantClients;
 
-	    @PostConstruct
+        @PostConstruct
         public void initClients() {
-	        this.restaurantClients = this.restaurantRepository.findAll()
+            this.restaurantClients = this.restaurantRepository.findAll()
                     .stream()
                     .map(r -> new RestaurantClient(r, mqttProperty))
                     .collect(Collectors.toList());
         }
 
-	    @GetMapping("/connect")
-	    public void connect(@PathVariable Long restaurantId) {
+        @GetMapping("/connect")
+        public void connect(@PathVariable Long restaurantId) {
             RestaurantClient restaurantClient = restaurantClients.stream()
                     .filter(c -> Objects.equals(c.getRestaurant().getId(), restaurantId))
                     .findAny()
@@ -74,7 +74,7 @@ public class IfoodConnectionApplication {
         }
     }
 
-	@Data
+    @Data
     class RestaurantClient {
 
         private final IfoodMqttProperty mqttProperty;
