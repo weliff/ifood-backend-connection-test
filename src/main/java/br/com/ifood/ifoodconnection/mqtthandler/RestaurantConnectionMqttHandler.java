@@ -11,13 +11,13 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class RestaurantConnectionHandler {
+public class RestaurantConnectionMqttHandler {
 
     private RestaurantService restaurantService;
 
     private ObjectMapper objectMapper;
 
-    public RestaurantConnectionHandler(RestaurantService restaurantService, ObjectMapper objectMapper) {
+    public RestaurantConnectionMqttHandler(RestaurantService restaurantService, ObjectMapper objectMapper) {
         this.restaurantService = restaurantService;
         this.objectMapper = objectMapper;
     }

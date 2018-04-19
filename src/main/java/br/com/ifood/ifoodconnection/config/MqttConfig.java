@@ -1,6 +1,6 @@
 package br.com.ifood.ifoodconnection.config;
 
-import br.com.ifood.ifoodconnection.mqtthandler.RestaurantConnectionHandler;
+import br.com.ifood.ifoodconnection.mqtthandler.RestaurantConnectionMqttHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class MqttConfig {
     private IfoodMqttProperty mqttProperty;
 
     @Bean
-    public IntegrationFlow mqttInFlow(RestaurantConnectionHandler restaurantConnectionHandler) {
+    public IntegrationFlow mqttInFlow(RestaurantConnectionMqttHandler restaurantConnectionHandler) {
         return IntegrationFlows.from(mqttInbound())
                 .handle(restaurantConnectionHandler.handle())
                 .get();
