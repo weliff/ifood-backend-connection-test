@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +21,12 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.HOLIDAYS;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class RestaurantRepositoryTest {
 
     @Autowired

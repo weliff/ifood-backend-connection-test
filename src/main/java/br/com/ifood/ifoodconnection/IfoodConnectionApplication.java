@@ -16,6 +16,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ public class IfoodConnectionApplication {
     // for simulate clients
     @RestController
     @RequestMapping("/clients/{restaurantId}")
+    @Profile("!test")
     class RestaurantClientController {
 
         @Autowired
