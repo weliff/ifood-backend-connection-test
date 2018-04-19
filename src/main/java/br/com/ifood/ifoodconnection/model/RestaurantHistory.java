@@ -22,9 +22,11 @@ public class RestaurantHistory implements PersistentAttributeInterceptable, Seri
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private RestaurantStatus status;
 
     @Column(name = "connection_state")
+    @Enumerated(EnumType.STRING)
     private ConnectionState connectionState;
 
     private LocalDateTime date;
