@@ -5,14 +5,15 @@ import io.moquette.server.config.ClasspathResourceLoader;
 import io.moquette.server.config.IConfig;
 import io.moquette.server.config.IResourceLoader;
 import io.moquette.server.config.ResourceLoaderConfig;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
 
-@Profile("!test")
-//@Configuration
+@Profile("dev")
+@Configuration
 public class MqttBrokerEmbeddedConfig {
 
     private Server serverMqtt;
