@@ -1,15 +1,12 @@
 package br.com.ifood.ifoodconnection.model;
 
 import br.com.ifood.ifoodconnection.fake.FakeOpeningHour;
-import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNowException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleConflictDateTimeException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateException;
 import br.com.ifood.ifoodconnection.service.exception.ScheduleUnavailableNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.time.LocalTime;
 
 import static br.com.ifood.ifoodconnection.model.ScheduleUnavailableReason.CONNECTION_ISSUES;
 import static java.time.LocalDateTime.now;
@@ -21,8 +18,7 @@ public class RestaurantTest {
 
     @Before
     public void setUp() throws Exception {
-        FakeOpeningHour openingHour = new FakeOpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 0));
-        openingHour.setNow(LocalTime.of(12, 0));
+        OpeningHour openingHour = FakeOpeningHour.openNow();
         this.restaurant = new Restaurant("Restaurant Fake", openingHour);
     }
 
@@ -69,32 +65,40 @@ public class RestaurantTest {
     }
 
     @Test
-    public void shouldChangeStatusToUnavailableAndChangeConnectionStateToOffline() throws Exception {
-        this.restaurant.changeStatus(RestaurantStatus.UNAVAILABLE);
-        Assertions.assertThat(this.restaurant.getStatus()).isEqualTo(RestaurantStatus.UNAVAILABLE);
-        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
-    }
-
-    @Test
-    public void shouldChangeStatusToAvailableAndChangeConnectionStateToOffline() throws Exception {
-        this.restaurant.changeStatus(RestaurantStatus.AVAILABLE);
-        Assertions.assertThat(this.restaurant.getStatus()).isEqualTo(RestaurantStatus.AVAILABLE);
-        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
-    }
-
-    @Test(expected = RestaurantIsNotOpenNowException.class)
     public void shouldNotChangeConnectionStateToOnlineWhenNotInTheOpeningHours() throws Exception {
-        FakeOpeningHour fakeOpeningHour = new FakeOpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 0));
-        fakeOpeningHour.setNow(LocalTime.of(7, 0));
-        this.restaurant = new Restaurant("Restaurant Fake", fakeOpeningHour);
+        OpeningHour openingHour = FakeOpeningHour.closedNow();
+        this.restaurant = new Restaurant("Restaurant Fake", openingHour);
+        this.restaurant.sendingKeepAliveSignal(true);
 
-        this.restaurant.changeConnectionState(ConnectionState.ONLINE);
-
+        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
+        Assertions.assertThat(this.restaurant.getHistories())
+                .hasSize(1);
     }
 
     @Test
-    public void shouldChangeConnectionStateToOnlineWhenInTheOpeningHours() throws Exception {
-        this.restaurant.changeConnectionState(ConnectionState.ONLINE);
+    public void shouldNotChangeConnectionStateToOnlineWhenNotAvailable() throws Exception {
+        this.restaurant.sendingKeepAliveSignal(true);
+        this.restaurant.changeStatus(RestaurantStatus.UNAVAILABLE);
+        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
+        Assertions.assertThat(this.restaurant.getHistories())
+                .hasSize(2);
+    }
+
+    @Test
+    public void shouldNotChangeConnectionStateToOnlineWhenNotSendingKeepAliveSignal() throws Exception {
+        this.restaurant.sendingKeepAliveSignal(false);
+        Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.OFFLINE);
+        Assertions.assertThat(this.restaurant.getHistories())
+                .hasSize(1);
+    }
+
+
+    @Test
+    public void shouldChangeConnectionStateToOnlineWhenInTheOpeningHoursAndSendingKeepAliveSignalAndRestaurantIsAvailable() throws Exception {
+        this.restaurant.sendingKeepAliveSignal(true);
+
         Assertions.assertThat(this.restaurant.getConnectionState()).isEqualTo(ConnectionState.ONLINE);
+        Assertions.assertThat(this.restaurant.getHistories())
+            .hasSize(1);
     }
 }

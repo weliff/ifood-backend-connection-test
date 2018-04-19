@@ -14,10 +14,10 @@ public class ClientSimulator {
     public static void main(String[] args) throws MqttException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        RestaurantStateDTO restaurantConnectionOnline = new RestaurantStateDTO(1L, ConnectionState.ONLINE);
+        RestaurantStateDTO restaurantConnectionOnline = new RestaurantStateDTO(1L, true);
         byte[] onlineMessage = objectMapper.writeValueAsBytes(restaurantConnectionOnline);
 
-        RestaurantStateDTO restaurantConnectionOffline = new RestaurantStateDTO(1L, ConnectionState.OFFLINE);
+        RestaurantStateDTO restaurantConnectionOffline = new RestaurantStateDTO(1L, false);
         byte[] offlineMessage = objectMapper.writeValueAsBytes(restaurantConnectionOffline);
 
 

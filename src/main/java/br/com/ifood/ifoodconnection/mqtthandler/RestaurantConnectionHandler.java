@@ -1,7 +1,6 @@
 package br.com.ifood.ifoodconnection.mqtthandler;
 
 import br.com.ifood.ifoodconnection.model.dto.RestaurantStateDTO;
-import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNowException;
 import br.com.ifood.ifoodconnection.service.RestaurantService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +27,6 @@ public class RestaurantConnectionHandler {
             try {
                 RestaurantStateDTO connectionState = objectMapper.readValue(message.getPayload().toString(), RestaurantStateDTO.class);
                 restaurantService.updateConnectionSate(connectionState);
-            }catch (RestaurantIsNotOpenNowException e) {
-                log.warn(e.getMessage());
             } catch (IOException e) {
                 throw new RuntimeException("Error reading RestaurantStateDTO!", e);
             }

@@ -29,7 +29,8 @@ public class IfoodConnectionApplication {
 		return args -> {
 			IntStream.range(1, 10)
 					.forEach(i -> {
-						Restaurant restaurant = new Restaurant("Restaurant " + i, new OpeningHour(LocalTime.now(), LocalTime.now()));
+						OpeningHour openingHour = new OpeningHour(LocalTime.of(10, 0), LocalTime.of(23, 59));
+						Restaurant restaurant = new Restaurant("Restaurant " + i, openingHour);
 						restaurantRepository.save(restaurant);
 					});
 

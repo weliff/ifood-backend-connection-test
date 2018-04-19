@@ -1,6 +1,5 @@
 package br.com.ifood.ifoodconnection.service;
 
-import br.com.ifood.ifoodconnection.model.ConnectionState;
 import br.com.ifood.ifoodconnection.model.Restaurant;
 import br.com.ifood.ifoodconnection.model.RestaurantStatus;
 import br.com.ifood.ifoodconnection.model.ScheduleUnavailable;
@@ -72,12 +71,12 @@ public class RestaurantService {
     @Transactional
     public Restaurant updateConnectionSate(RestaurantStateDTO restaurantStateDTO) {
         Long restaurantId = restaurantStateDTO.getRestaurantId();
-        ConnectionState state = restaurantStateDTO.getState();
+        Boolean connected = restaurantStateDTO.getSendingKeepAliveSignal();
 
-        log.info("Updating connection state for restaurantId={} to state={}",restaurantId, state);
+        log.info("Updating connection for restaurantId={} to connected={}",restaurantId, connected);
 
         Restaurant restaurant = findById(restaurantId);
-        restaurant.changeConnectionState(state);
+        restaurant.sendingKeepAliveSignal(connected);
         return restaurantRepository.save(restaurant);
     }
 

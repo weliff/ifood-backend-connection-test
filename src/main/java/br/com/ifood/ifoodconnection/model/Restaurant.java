@@ -1,6 +1,5 @@
 package br.com.ifood.ifoodconnection.model;
 
-import br.com.ifood.ifoodconnection.model.exception.RestaurantIsNotOpenNowException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleConflictDateTimeException;
 import br.com.ifood.ifoodconnection.model.exception.ScheduleUnavailableStateException;
 import br.com.ifood.ifoodconnection.model.view.ViewSummary;
@@ -10,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @EqualsAndHashCode(of = "id")
 @Getter
@@ -47,6 +48,8 @@ public class Restaurant implements Serializable {
     @Embedded
     private OpeningHour openingHour;
 
+    private Boolean sendingKeepAliveSignal;
+
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleUnavailable> unavailables = new ArrayList<>();
@@ -60,10 +63,12 @@ public class Restaurant implements Serializable {
     }
 
     public Restaurant(String name, OpeningHour openingHour) {
+        Assert.notNull(openingHour, "OpeningHour is required");
         this.name = name;
         this.openingHour = openingHour;
         this.status = RestaurantStatus.AVAILABLE;
         this.connectionState = ConnectionState.OFFLINE;
+        this.sendingKeepAliveSignal = false;
     }
 
     public void addScheduleUnavailable(ScheduleUnavailable scheduleUnavailable) {
@@ -85,29 +90,33 @@ public class Restaurant implements Serializable {
         this.unavailables.remove(scheduleUnavailable);
     }
 
-    private boolean hasScheduleUnavailableInRange(LocalDateTime start, LocalDateTime end) {
-        return getUnavailables().stream()
-                .anyMatch(s -> (s.getStart().isEqual(start) || s.getEnd().isEqual(end)) ||  (s.getStart().isBefore(start)
-                        && (s.getEnd().isAfter(end))));
-    }
-
-    public void changeConnectionState(ConnectionState state) {
-        if (state == ConnectionState.ONLINE && !openingHour.isOpenNow()) {
-            throw new RestaurantIsNotOpenNowException(String.format("The restaurant is not open now. OpeningHours=%s", this.openingHour));
-        }
-        this.connectionState = state;
+    public void sendingKeepAliveSignal(boolean sending) {
+        this.sendingKeepAliveSignal = sending;
+        changeConnectionState();
         this.histories.add(new RestaurantHistory(this));
     }
 
     public void changeStatus(RestaurantStatus status) {
-        if (status == RestaurantStatus.UNAVAILABLE) {
-            connectionState = ConnectionState.OFFLINE;
-        }
         this.status = status;
+        changeConnectionState();
         this.histories.add(new RestaurantHistory(this));
     }
 
     public List<ScheduleUnavailable> getUnavailables() {
         return Collections.unmodifiableList(unavailables);
+    }
+
+    private void changeConnectionState() {
+        if (sendingKeepAliveSignal && status == RestaurantStatus.AVAILABLE && openingHour.isOpenNow()) {
+            this.connectionState = ConnectionState.ONLINE;
+        } else {
+            this.connectionState = ConnectionState.OFFLINE;
+        }
+    }
+
+    private boolean hasScheduleUnavailableInRange(LocalDateTime start, LocalDateTime end) {
+        return getUnavailables().stream()
+                .anyMatch(s -> (s.getStart().isEqual(start) || s.getEnd().isEqual(end)) ||  (s.getStart().isBefore(start)
+                        && (s.getEnd().isAfter(end))));
     }
 }
