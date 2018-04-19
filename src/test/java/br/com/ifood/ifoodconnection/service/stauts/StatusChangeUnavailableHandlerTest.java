@@ -1,5 +1,6 @@
 package br.com.ifood.ifoodconnection.service.stauts;
 
+import br.com.ifood.ifoodconnection.fake.FakeOpeningHour;
 import br.com.ifood.ifoodconnection.model.OpeningHour;
 import br.com.ifood.ifoodconnection.model.Restaurant;
 import br.com.ifood.ifoodconnection.model.RestaurantStatus;
@@ -38,7 +39,7 @@ public class StatusChangeUnavailableHandlerTest {
         Long restaurantId = 1L;
         LocalDateTime endDate = now();
         RestaurantChangeStatusEvent event = new RestaurantChangeStatusEvent(restaurantId, RestaurantStatus.AVAILABLE, endDate);
-        Restaurant restaurantFake = new Restaurant("Restaurant Fake", null);
+        Restaurant restaurantFake = new Restaurant("Restaurant Fake", FakeOpeningHour.openNow());
 
         Mockito.when(restaurantRepositoryMock.findScheduleUnavailableByRestaurantAndStartDate(restaurantId, endDate))
                 .thenReturn(Optional.of(new ScheduleUnavailable(1L, now(), endDate, restaurantFake, CONNECTION_ISSUES)));

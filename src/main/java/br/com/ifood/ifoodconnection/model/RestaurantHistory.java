@@ -27,7 +27,9 @@ public class RestaurantHistory implements PersistentAttributeInterceptable, Seri
     @Column(name = "connection_state")
     private ConnectionState connectionState;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime date;
+
+    private Boolean sendingKeepAliveSignal;
 
     @JsonIgnore
     @Getter(AccessLevel.PRIVATE)
@@ -48,7 +50,8 @@ public class RestaurantHistory implements PersistentAttributeInterceptable, Seri
         this.status = restaurant.getStatus();
         this.connectionState = restaurant.getConnectionState();
         this.restaurant = restaurant;
-        this.dateTime = LocalDateTime.now();
+        this.sendingKeepAliveSignal = restaurant.getSendingKeepAliveSignal();
+        this.date = LocalDateTime.now();
     }
 
     @Override

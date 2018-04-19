@@ -1,6 +1,5 @@
 package br.com.ifood.ifoodconnection.model.dto;
 
-import br.com.ifood.ifoodconnection.model.ConnectionState;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
@@ -10,19 +9,19 @@ import lombok.ToString;
 import java.io.Serializable;
 
 @ToString
-@EqualsAndHashCode(of = "restaurantId")
+@EqualsAndHashCode
 @Getter
 public class RestaurantStateDTO implements Serializable {
 
     private Long restaurantId;
 
-    private ConnectionState state;
+    private Boolean sendingKeepAliveSignal;
 
     @JsonCreator
     public RestaurantStateDTO(
             @JsonProperty("restaurantId") Long restaurantId,
-            @JsonProperty("state") ConnectionState state) {
+            @JsonProperty("sendingKeepAliveSignal") Boolean sendingKeepAliveSignal) {
         this.restaurantId = restaurantId;
-        this.state = state;
+        this.sendingKeepAliveSignal = sendingKeepAliveSignal;
     }
 }
