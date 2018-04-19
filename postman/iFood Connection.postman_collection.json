@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "22c2cf92-3267-4f1b-9533-dcbf5e8cdabd",
+		"name": "iFood Connection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save Schedule Unavailable",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"start\":\"2018-04-18T22:58\",\n\t\"end\": \"2018-04-18T22:59\",\n\t\"reason\": \"LACK_OF_DELIVERY_STAFF\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/restaurants/1/schedules-unavailable",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"schedules-unavailable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Restaurant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/restaurants/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Restaurants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/restaurants",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete One Schedule",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/restaurants/1/schedules-unavailable/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"schedules-unavailable",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get History One Restaurant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/restaurants/1/history",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schedules For One Restaurant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/restaurants/1/schedules-unavailable",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"schedules-unavailable"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
