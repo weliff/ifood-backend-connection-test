@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"start\":\"2018-04-18T22:58\",\n\t\"end\": \"2018-04-18T22:59\",\n\t\"reason\": \"LACK_OF_DELIVERY_STAFF\"\n}"
+					"raw": "{\n\t\"start\":\"2018-04-19T01:18\",\n\t\"end\": \"2018-04-19T01:19\",\n\t\"reason\": \"LACK_OF_DELIVERY_STAFF\"\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/restaurants/1/schedules-unavailable",
@@ -132,6 +132,48 @@
 						"restaurants",
 						"1",
 						"schedules-unavailable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disconnect Client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/clients/1/disconnect",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clients",
+						"1",
+						"disconnect"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/clients/1/connect",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clients",
+						"1",
+						"connect"
 					]
 				}
 			},
