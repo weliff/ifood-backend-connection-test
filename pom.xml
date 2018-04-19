@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>ifood-connection</name>
-	<description>Demo project for Spring Boot</description>
+	<description>iFood Connection</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -80,20 +80,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>it.ozimov</groupId>
-			<artifactId>embedded-redis</artifactId>
-			<version>0.7.1</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-stream</artifactId>
 		</dependency>
 
 		<dependency>
@@ -122,6 +111,7 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>it.ozimov</groupId>
 			<artifactId>embedded-redis</artifactId>
@@ -132,24 +122,6 @@
 			<groupId>io.moquette</groupId>
 			<artifactId>moquette-broker</artifactId>
 			<version>0.10</version>
-		</dependency>
-
-
-		<!--APACHE IGNITE -->
-		<dependency>
-			<groupId>org.apache.ignite</groupId>
-			<artifactId>ignite-core</artifactId>
-			<version>${ignite.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.ignite</groupId>
-			<artifactId>ignite-spring</artifactId>
-			<version>${ignite.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.ignite</groupId>
-			<artifactId>ignite-indexing</artifactId>
-			<version>${ignite.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -165,12 +137,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>--add-modules java.base</argLine>
-					<!--<argLine>&#45;&#45;add-exports java.base/jdk.internal.misc=ALL-UNNAMED</argLine>-->
-					<!--<argLine>&#45;&#45;add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>-->
-					<!--<argLine>&#45;&#45;add-exports java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED</argLine>-->
-					<!--<argLine>&#45;&#45;add-exports jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED</argLine>-->
-					<!--<argLine>&#45;&#45;add-modules java.xml.bind</argLine>-->
-
 				</configuration>
 			</plugin>
 		</plugins>
