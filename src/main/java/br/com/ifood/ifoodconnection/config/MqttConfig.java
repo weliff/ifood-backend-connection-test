@@ -1,6 +1,7 @@
 package br.com.ifood.ifoodconnection.config;
 
 import br.com.ifood.ifoodconnection.mqtthandler.RestaurantConnectionMqttHandler;
+import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,8 @@ public class MqttConfig {
 
     @Bean
     public MessageProducerSupport mqttInbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttProperty.getClientId(),
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(
+                mqttProperty.getClientId() + MqttClient.generateClientId(),
                 mqttClientFactory(), mqttProperty.getTopics());
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());

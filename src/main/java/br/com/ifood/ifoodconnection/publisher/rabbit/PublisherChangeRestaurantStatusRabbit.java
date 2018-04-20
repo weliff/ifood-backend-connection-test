@@ -29,10 +29,7 @@ public class PublisherChangeRestaurantStatusRabbit implements PublisherChangeRes
     public void publish(RestaurantChangeStatusEvent event) {
         try {
             String eventString = objectMapper.writeValueAsString(event);
-            //TODO: remove
             long delayToPublish = ChronoUnit.MILLIS.between(LocalDateTime.now(), event.getDate());
-//            long delayToPublish = 1000L;
-
             rabbitTemplate.convertAndSend(Exchanges.RESTAURANT_STATUS_CHANGE,
                     Queues.RESTAURANT_STATUS_CHANGE, eventString , Map.of("x-delay", delayToPublish));
         } catch (JsonProcessingException e) {
