@@ -7,14 +7,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.QueryHint;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 
+    @Override
+    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+    List<Restaurant> findAllById(Iterable<Long> iterable);
+
+    ///TODO: mudar essas queries
     @Query("select rh from Restaurant r join r.histories rh where r.id = ?1")
     Page<RestaurantHistory> findHistory(Long restaurantId, Pageable pageable);
 

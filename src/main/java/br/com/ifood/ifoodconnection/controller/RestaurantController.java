@@ -10,15 +10,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
 @RequestMapping("/restaurants")
+@Validated
 public class RestaurantController {
 
     private RestaurantService restaurantService;
@@ -36,6 +36,11 @@ public class RestaurantController {
         return restaurantRepository.findAll();
     }
 
+    @GetMapping(params = "restaurantIds")
+    public List<Restaurant> findAllByIds(@RequestParam @Size(min=1, max = 100) List<Long> restaurantIds) {
+        return this.restaurantService.findAllByIds(restaurantIds);
+    }
+
     @GetMapping("/{id}")
     public Restaurant findById(@PathVariable("id") Long restaurantId) {
         return this.restaurantService.findById(restaurantId);
@@ -45,7 +50,7 @@ public class RestaurantController {
     @Transactional
     public Page<RestaurantHistory> getConnectionStatusHistory(@PathVariable("id") Long restaurantId,
                                                               @PageableDefault(15) Pageable pageable) {
-        return restaurantRepository.findHistory(restaurantId, pageable);
+        return restaurantRepository.findHistoryById(restaurantId, pageable);
     }
 
 

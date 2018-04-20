@@ -9,8 +9,6 @@ import br.com.ifood.ifoodconnection.publisher.PublisherChangeRestaurantStatus;
 import br.com.ifood.ifoodconnection.repository.RestaurantRepository;
 import br.com.ifood.ifoodconnection.service.exception.RestaurantNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,19 +28,15 @@ public class RestaurantService {
         this.publisherChangeRestaurantStatus = publisherChangeRestaurantStatus;
     }
 
-//    @Cacheable(cacheNames = "restaurants", key = "#id")
-    public List<Restaurant> findByIds(List<Long> id) {
+    public List<Restaurant> findAllByIds(List<Long> id) {
         return restaurantRepository.findAllById(id);
-//                .orElseThrow(() -> new RestaurantNotFoundException(String.format("Not found the resource Restaurant with id=%s", id)));
     }
 
-//    @Cacheable(cacheNames = "restaurants", key = "#id")
     public Restaurant findById(Long id) {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(String.format("Not found the resource Restaurant with id=%s", id)));
     }
 
-//    @CachePut(cacheNames = "restaurants", key = "#restaurantId")
     @Transactional
     public Restaurant saveScheduleUnavailable(Long restaurantId, ScheduleUnavailable scheduleUnavailable) {
         log.info("Saving schedule unavailable for restaurantId={}, ScheduleUnavailable={}", restaurantId, scheduleUnavailable);
@@ -54,7 +48,6 @@ public class RestaurantService {
         return restaurant;
     }
 
-//    @CachePut(cacheNames = "restaurants", key = "#restaurantId")
     @Transactional
     public Restaurant deleteScheduleUnavailable(Long restaurantId, Long scheduleId) {
         log.info("Removing schedule for restaurantId={}, scheduleId={}", restaurantId, scheduleId);
@@ -63,7 +56,6 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-//    @CachePut(cacheNames = "restaurants", key = "#event.getRestaurantId()")
     @Transactional
     public Restaurant updateRestaurantStatusByEvent(RestaurantChangeStatusEvent event) {
         log.info("Receiving change status event={}", event);
@@ -75,7 +67,6 @@ public class RestaurantService {
             });
     }
 
-//    @CachePut(cacheNames = "restaurants", key = "#restaurantStateDTO.getRestaurantId()")
     @Transactional
     public Restaurant updateConnectionSate(RestaurantStateDTO restaurantStateDTO) {
         Long restaurantId = restaurantStateDTO.getRestaurantId();
