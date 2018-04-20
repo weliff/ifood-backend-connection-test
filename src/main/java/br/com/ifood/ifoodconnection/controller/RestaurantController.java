@@ -50,7 +50,7 @@ public class RestaurantController {
     @Transactional
     public Page<RestaurantHistory> getConnectionStatusHistory(@PathVariable("id") Long restaurantId,
                                                               @PageableDefault(15) Pageable pageable) {
-        return restaurantRepository.findHistoryById(restaurantId, pageable);
+        return restaurantRepository.findHistory(restaurantId, pageable);
     }
 
 
